@@ -2,28 +2,36 @@ package com.ll.basic1.algorithm;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Stack;
+
 class AlgorithmTest {
 
     @Test
     void t1() {
-        int n = 15;
+        String s = "bbaa";
         int answer = 0;
         //--------------------------------//
-        String num = Integer.toString(n, 2);
-        int length = num.replace("0", "").length();
-
-        for (int i = n + 1; i > n; i++) {
-            String s = Integer.toString(i, 2);
-            int iLength = s.replace("0", "").length();
-
-            if (length == iLength) {
-                answer = i;
-                break;
-            }
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            try {
+                if (s.charAt(i) == stack.peek()) {
+                    stack.pop();
+                    continue;
+                }
+            }catch (Exception e){}
+            stack.add(s.charAt(i));
         }
+        answer = stack.empty() ? 1 : 0;
 
 
 //        for (int i : answer)
-            System.out.println(answer);
+        System.out.println(answer);
+    }
+
+    @Test
+    void t2() {
+        Stack<Integer> s = new Stack<>();
+        s.peek();
+        System.out.println("dd");
     }
 }
