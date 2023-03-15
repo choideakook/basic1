@@ -1,52 +1,52 @@
 package com.ll.basic1.service;
 
-import com.ll.basic1.base.Member;
+import com.ll.basic1.entity.Member;
+import com.ll.basic1.entity.MemberDto;
+import com.ll.basic1.repository.MemberRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MemberService {
 
-    private Map<Integer, Member> list = new HashMap<>();
-    private int id = 0;
+    private final MemberRepository repository = new MemberRepository();
 
-    //-- 저장 --//
+    //-- save --//
     public int save(Member member) {
-        id = id + 1;
-        member.setId(id);
-        list.put(id, member);
-        return id;
+        return repository.save(member);
     }
 
-    //-- 특정 회원 검색 --//
-    public Member findMember(int id) {
-        return list.get(id);
+    //-- login ---//
+    public MemberDto login(String username, int password) {
+        List<Member> members = repository.findAll();
+        for (Member dto : members) {
+            if (dto.getName().equals(username)) {
+                if (dto.getPassword() == password) {
+                    return new MemberDto("S-1", username + "님 환영합니다.");
+
+                } else return new MemberDto("F-1", "비밀번호가 일치하지 않습니다.");
+            }
+        }
+        return new MemberDto("F-2", username + " (은)는 존재하지 않는 회원입니다.");
+    }
+
+    //-- id 찾기 --//
+    public Member findOne(int id) {
+        return repository.findMember(id);
     }
 
     //-- 모든 회원 찾기 --//
     public List<Member> findAll() {
-        List<Member> findAll = new ArrayList<>();
-        for (Member member : list.values()) {
-            findAll.add(member);
-        }
-        return findAll;
+        return repository.findAll();
     }
 
-    //-- 회원 정보 업데이트 --//
+    //-- 회원 업데이트 --//
     public Member update(int id, String name) {
-        Member member = list.get(id);
-        member.setName(name);
-        list.put(id, member);
-        return member;
+        Member member = repository.findMember(id);
+        return repository.update(member, name);
     }
 
-    //-- 획원 삭제 --//
+    //-- 회원 삭제 --//
     public int delete(int id) {
-        list.remove(id);
-        return id;
+        return repository.delete(id);
     }
-
-
 }

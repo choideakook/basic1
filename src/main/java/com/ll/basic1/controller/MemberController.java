@@ -1,8 +1,8 @@
 package com.ll.basic1.controller;
 
-import com.ll.basic1.base.Member;
-import com.ll.basic1.base.MemberDto;
-import com.ll.basic1.base.UpdateDto;
+import com.ll.basic1.entity.Member;
+import com.ll.basic1.entity.MemberDto;
+import com.ll.basic1.entity.UpdateDto;
 import com.ll.basic1.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 public class MemberController {
 
-    MemberService service = new MemberService();
+    private final MemberService service = new MemberService();
 
     //-- 파라미터로 이름, 나이 받아오기 --//
     // http://localhost:8080/home/addPerson?name=홍길동&password=1234
@@ -46,16 +46,7 @@ public class MemberController {
             @RequestParam String username,
             @RequestParam int password
     ) {
-        List<Member> members = service.findAll();
-        for (Member dto : members) {
-            if (dto.getName().equals(username)) {
-                if (dto.getPassword() == password) {
-                    return new MemberDto("S-1", username + "님 환영합니다.");
-
-                } else return new MemberDto("F-1", "비밀번호가 일치하지 않습니다.");
-            }
-        }
-        return new MemberDto("F-2", username + " (은)는 존재하지 않는 회원입니다.");
+        return service.login(username, password);
     }
 
     //-- 특정 파라미터 수정 --//
