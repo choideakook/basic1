@@ -9,23 +9,16 @@ class AlgorithmTest {
 
     @Test
     void t1() {
-        int n = 3;
-        String[] words = {"tank", "kick", "know", "wheel", "land", "dream", "mother", "robot", "tank"};
+        int brown = 10;
+        int yellow = 2;
         int[] answer = new int[2];
         //--------------------------------//
-        ArrayList<String> list = new ArrayList<>();
-        int fail = 0;
-        char first = ' ';
-        char last = ' ';
+
+        
 
 
-        for (int i = 0; i < words.length; i++) {
-
-        }
-
-
-//        for (int i : answer)
-//            System.out.println(list.size());
+        for (int i : answer)
+            System.out.println(i);
     }
 
     @Test
