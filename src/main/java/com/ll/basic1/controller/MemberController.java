@@ -4,7 +4,6 @@ import com.ll.basic1.entity.Member;
 import com.ll.basic1.entity.MemberDto;
 import com.ll.basic1.entity.UpdateDto;
 import com.ll.basic1.service.MemberService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,15 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService service;
+
+    //-- 쿠키 삭제 하기 --//
+    // http://localhost:8080/member/logout
+    @GetMapping("/member/logout")
+    @ResponseBody
+    public MemberDto logout(HttpServletResponse resp) {
+        service.deleteCookie(resp);
+        return new MemberDto("S-1", "로그아웃 되었습니다.");
+    }
 
     //-- 쿠키로 로그인 정보 확인하기 --//
     // http://localhost:8080/member/me
@@ -50,15 +58,6 @@ public class MemberController {
         return service.save(member) + "번 사람이 추가되었습니다.";
     }
 
-    //-- 모든 회원 조회 --//
-    // http://localhost:8080/home/people
-    @GetMapping("/home/people")
-    @ResponseBody
-    public List<Member> showMain3() {
-
-        return service.findAll();
-    }
-
     //-- 로그인 하기 --//
     // http://localhost:8080/member/login?username=홍길동&password=1234
     @GetMapping("/member/login")
@@ -72,6 +71,15 @@ public class MemberController {
         MemberDto result = service.login(username, password);
         service.createCookie(resp, username);
         return result;
+    }
+
+    //-- 모든 회원 조회 --//
+    // http://localhost:8080/home/people
+    @GetMapping("/home/people")
+    @ResponseBody
+    public List<Member> showMain3() {
+
+        return service.findAll();
     }
 
     //-- 특정 파라미터 수정 --//

@@ -41,8 +41,16 @@ public class MemberService {
             }
         }
         return "null";
-
     }
+
+    //-- 쿠키 삭제 --//
+    public void deleteCookie(HttpServletResponse resp) {
+        Cookie cookie = new Cookie("yes", null);
+        cookie.setMaxAge(0);
+        resp.addCookie(cookie);
+    }
+
+
 
     //-- login ---//
     public MemberDto login(String username, int password) {
