@@ -4,6 +4,7 @@ import com.ll.basic1.entity.Member;
 import com.ll.basic1.entity.MemberDto;
 import com.ll.basic1.entity.UpdateDto;
 import com.ll.basic1.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 @Controller
+@RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService service = new MemberService();
+    private final MemberService service;
 
     //-- 파라미터로 이름, 나이 받아오기 --//
     // http://localhost:8080/home/addPerson?name=홍길동&password=1234

@@ -1,15 +1,18 @@
 package com.ll.basic1.repository;
 
 import com.ll.basic1.entity.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class MemberRepository {
 
-    private Map<Integer, Member> list = new HashMap<>();
+    //-- 회원 정보 저장 공간 --//
+    private final Map<Integer, Member> list = new HashMap<>();
     private int id = 0;
 
     //-- 저장 --//
@@ -47,6 +50,4 @@ public class MemberRepository {
         list.remove(id);
         return id;
     }
-
-
 }

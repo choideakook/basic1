@@ -3,12 +3,16 @@ package com.ll.basic1.service;
 import com.ll.basic1.entity.Member;
 import com.ll.basic1.entity.MemberDto;
 import com.ll.basic1.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository repository = new MemberRepository();
+    private final MemberRepository repository;
 
     //-- save --//
     public int save(Member member) {
