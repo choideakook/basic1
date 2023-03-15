@@ -11,4 +11,5 @@ public class MemberDto {
         this.resultCode = resultCode;
         this.msg = msg;
     }
+
 }

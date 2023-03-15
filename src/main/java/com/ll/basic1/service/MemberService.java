@@ -3,6 +3,9 @@ package com.ll.basic1.service;
 import com.ll.basic1.entity.Member;
 import com.ll.basic1.entity.MemberDto;
 import com.ll.basic1.repository.MemberRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,28 @@ public class MemberService {
     //-- save --//
     public int save(Member member) {
         return repository.save(member);
+    }
+
+    //-- 쿠키 생성 --//
+    public void createCookie(HttpServletResponse resp, String username) {
+
+        resp.addCookie(new Cookie("yes", username));
+    }
+
+    //-- 쿠키 확인 --//
+    public String findCookie(HttpServletRequest req) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                String name = cookie.getName();
+                String value = cookie.getValue();
+                if (name.equals("yes")) {
+                    return value;
+                }
+            }
+        }
+        return "null";
+
     }
 
     //-- login ---//

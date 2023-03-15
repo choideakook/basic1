@@ -21,19 +21,18 @@ public class HomeController {
     // http://localhost:8080/home/reqAndResp
     @GetMapping("/home/reqAndResp")
     @ResponseBody
-    public int showReqAndResp(HttpServletRequest req, HttpServletResponse resp) {
-        // 고객의 쿠키에서 count 를 찾아서 i 에 저장
-        if (req.getCookies() != null) {
-            countCookie = Arrays.stream(req.getCookies())
-                    .filter(cookie -> cookie.getName().equals("count"))
-                    .map(Cookie::getValue)
-                    .mapToInt(Integer::parseInt)
-                    .findFirst()
-                    .orElse(0);
+    public String showReqAndResp(HttpServletRequest req, HttpServletResponse resp) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                String name = cookie.getName();
+                String value = cookie.getValue();
+                if (name.equals("yes")) {
+                    return value;
+                }
+            }
         }
-        int newCountCookie = countCookie + 1;
-        resp.addCookie(new Cookie("count", newCountCookie + ""));
-        return newCountCookie;
+        return null;
     }
 
 
