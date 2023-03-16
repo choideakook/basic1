@@ -8,6 +8,7 @@ import com.ll.basic1.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -80,10 +81,16 @@ public class MemberController {
         return service.save(member) + "번 사람이 추가되었습니다.";
     }
 
+    //-- 로그인 HTML Form --//
+    // http://localhost:8080/member/login
+    @GetMapping("/member/login")
+    public String showLogin() {
+        return "usr/member/login";
+    }
 
     //-- 파라미터로 로그인 하기 --//
-    // http://localhost:8080/member/doLogin?username=홍길동&password=1234
-    @GetMapping("/member/doLogin")
+    // http://localhost:8080/member/login?username=홍길동&password=1234
+    @PostMapping("/member/login")
     @ResponseBody
     public MemberDto doLogin(String username, int password) {
         MemberDto dto = service.login(username, password);
