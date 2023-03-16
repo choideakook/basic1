@@ -17,11 +17,14 @@ public class MemberService {
 
     private final MemberRepository repository;
 
-    //-- save --//
-    public int save(Member member) {
-        return repository.save(member);
-    }
+    /**
+     * 세션 관련 로직
+     */
 
+
+    /**
+     *  쿠키 관련 로직
+     */
     //-- 쿠키 생성 --//
     public void createCookie(HttpServletResponse resp, String username) {
 
@@ -40,7 +43,7 @@ public class MemberService {
                 }
             }
         }
-        return "null";
+        return "";
     }
 
     //-- 쿠키 삭제 --//
@@ -48,10 +51,12 @@ public class MemberService {
         Cookie cookie = new Cookie("yes", null);
         cookie.setMaxAge(0);
         resp.addCookie(cookie);
+
     }
 
-
-
+    /**
+     *  비즈니스 로직
+     */
     //-- login ---//
     public MemberDto login(String username, int password) {
         List<Member> members = repository.findAll();
@@ -64,6 +69,11 @@ public class MemberService {
             }
         }
         return new MemberDto("F-2", username + " (은)는 존재하지 않는 회원입니다.");
+    }
+
+    //-- save --//
+    public int save(Member member) {
+        return repository.save(member);
     }
 
     //-- id 찾기 --//

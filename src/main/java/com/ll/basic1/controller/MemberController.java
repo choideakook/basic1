@@ -24,9 +24,18 @@ public class MemberController {
     // http://localhost:8080/member/logout
     @GetMapping("/member/logout")
     @ResponseBody
-    public MemberDto logout(HttpServletResponse resp) {
-        service.deleteCookie(resp);
-        return new MemberDto("S-1", "로그아웃 되었습니다.");
+    public MemberDto logout(
+            HttpServletResponse resp,
+            HttpServletRequest req
+    ) {
+        String cookie = service.findCookie(req);
+
+        if (cookie.equals("")) {
+            return new MemberDto("S-2", "이미 로그아웃 상태입니다.");
+        }else {
+            service.deleteCookie(resp);
+            return new MemberDto("S-1", "로그아웃 되었습니다.");
+        }
     }
 
     //-- 쿠키로 로그인 정보 확인하기 --//
@@ -36,7 +45,7 @@ public class MemberController {
     public MemberDto showMe(HttpServletRequest req) {
         String value = service.findCookie(req);
 
-        if (value.equals("null"))
+        if (value.equals(""))
             return new MemberDto("F-1", "로그인후 이용해 주세요.");
 
         return new MemberDto("S-1", "당신의 username(은)는 " + value +" 입니다.");
@@ -65,7 +74,6 @@ public class MemberController {
     public MemberDto showLogin(
             @RequestParam String username,
             @RequestParam int password,
-            HttpServletRequest req,
             HttpServletResponse resp
     ) {
         MemberDto result = service.login(username, password);
@@ -95,10 +103,9 @@ public class MemberController {
 
         if (value == "null")
             return new UpdateDto("로그인 후 이용해주세요.", "F-1");
-        else {
+
             Member member = service.update(id, name);
             return new UpdateDto(member.getId() + "번 화원 수정이 완료됬습니다.", member);
-        }
     }
 
     //-- 특정 파라미터 삭제 --//
@@ -111,7 +118,8 @@ public class MemberController {
     ) {
         String value = service.findCookie(req);
 
-        if (value == "null") return "로그인 후 이용해주세요.";
+        if (value == "null")
+            return "로그인 후 이용해주세요.";
 
         return service.delete(id) + " 번 회원이 삭제되었습니다.";
     }
