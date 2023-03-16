@@ -11,10 +11,10 @@ class AlgorithmTest {
         int[] answer = new int[s.length()];
         //--------------------------------//
 
-        StringBuilder sb = new StringBuilder(s);
+        String copy = s;
 
         for (int i = s.length() -1; i >= 0; i--) {
-            
+
         }
 
 

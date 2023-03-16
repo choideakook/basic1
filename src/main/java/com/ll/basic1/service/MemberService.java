@@ -3,60 +3,20 @@ package com.ll.basic1.service;
 import com.ll.basic1.entity.Member;
 import com.ll.basic1.entity.MemberDto;
 import com.ll.basic1.repository.MemberRepository;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ *  비즈니스 로직
+ */
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository repository;
 
-    /**
-     * 세션 관련 로직
-     */
-
-
-    /**
-     *  쿠키 관련 로직
-     */
-    //-- 쿠키 생성 --//
-    public void createCookie(HttpServletResponse resp, String username) {
-
-        resp.addCookie(new Cookie("yes", username));
-    }
-
-    //-- 쿠키 확인 --//
-    public String findCookie(HttpServletRequest req) {
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                String name = cookie.getName();
-                String value = cookie.getValue();
-                if (name.equals("yes")) {
-                    return value;
-                }
-            }
-        }
-        return "";
-    }
-
-    //-- 쿠키 삭제 --//
-    public void deleteCookie(HttpServletResponse resp) {
-        Cookie cookie = new Cookie("yes", null);
-        cookie.setMaxAge(0);
-        resp.addCookie(cookie);
-
-    }
-
-    /**
-     *  비즈니스 로직
-     */
     //-- login ---//
     public MemberDto login(String username, int password) {
         List<Member> members = repository.findAll();
