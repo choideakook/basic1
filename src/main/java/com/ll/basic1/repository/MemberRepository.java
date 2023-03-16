@@ -12,11 +12,11 @@ import java.util.Map;
 public class MemberRepository {
 
     //-- 회원 정보 저장 공간 --//
-    private final Map<Integer, Member> list = new HashMap<>();
-    private int id = 0;
+    private final Map<Long, Member> list = new HashMap<>();
+    private long id = 0;
 
     //-- 저장 --//
-    public int save(Member member) {
+    public long save(Member member) {
         id = id + 1;
         member.setId(id);
         list.put(id, member);
@@ -24,7 +24,7 @@ public class MemberRepository {
     }
 
     //-- 특정 회원 검색 --//
-    public Member findMember(int id) {
+    public Member findMember(long id) {
         return list.get(id);
     }
 
@@ -40,7 +40,7 @@ public class MemberRepository {
     //-- 회원 정보 업데이트 --//
     public Member update(Member member, String name) {
         member.setName(name);
-        int id = member.getId();
+        long id = member.getId();
         list.put(id, member);
         return member;
     }

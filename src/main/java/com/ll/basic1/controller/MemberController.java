@@ -22,33 +22,46 @@ public class MemberController {
     //-- cookie logic DI --//
     private final Rq rq;
 
+
+    //-- session check 용 메소드 --//
+    //http://localhost:8080/member/session
+    @GetMapping("/member/session")
+    @ResponseBody
+    public String showSession() {
+        return rq.getSessionDebugContents();
+    }
+
+
     //-- 쿠키 삭제 (로그아웃) 하기 --//
     // http://localhost:8080/member/logout
     @GetMapping("/member/logout")
     @ResponseBody
     public MemberDto logout() {
-        String cookie = rq.findCookie();
+        boolean result = rq.removeSession("loginedMemberId");
 
-        if (cookie.equals(""))
+        if (!result)
             return new MemberDto("S-2", "이미 로그아웃 상태입니다.");
 
         else {
-            rq.deleteCookie();
             return new MemberDto("S-1", "로그아웃 되었습니다.");
         }
     }
 
-    //-- 쿠키로 사용자 정보 확인하기 --//
+    //-- 사용자 정보 확인하기 --//
     // http://localhost:8080/member/me
     @GetMapping("/member/me")
     @ResponseBody
     public MemberDto showMe() {
-        String value = rq.findCookie();
+        long loginedMemberId = rq.getSessionAsLong("loginedMemberId", 0);
 
-        if (value.equals(""))
+        boolean isLogined = loginedMemberId > 0;
+
+        if (!isLogined)
             return new MemberDto("F-1", "로그인후 이용해 주세요.");
 
-        return new MemberDto("S-1", "당신의 username(은)는 " + value +" 입니다.");
+        Member member = service.findOne(loginedMemberId);
+
+        return new MemberDto("S-1", "당신의 username(은)는 " + member.getName() +" 입니다.");
     }
 
 
@@ -67,17 +80,17 @@ public class MemberController {
         return service.save(member) + "번 사람이 추가되었습니다.";
     }
 
-    //-- 로그인 , 쿠키 저장 하기 --//
-    // http://localhost:8080/member/login?username=홍길동&password=1234
-    @GetMapping("/member/login")
+
+    //-- 파라미터로 로그인 하기 --//
+    // http://localhost:8080/member/doLogin?username=홍길동&password=1234
+    @GetMapping("/member/doLogin")
     @ResponseBody
-    public MemberDto showLogin(
-            @RequestParam String username,
-            @RequestParam int password
-    ) {
-        MemberDto result = service.login(username, password);
-        rq.createCookie(username);
-        return result;
+    public MemberDto doLogin(String username, int password) {
+        MemberDto dto = service.login(username, password);
+        Member member = dto.getMember();
+
+        rq.setSession("loginedMemberId", member.getId());
+        return dto;
     }
 
     //-- 모든 회원 조회 --//

@@ -23,7 +23,9 @@ public class MemberService {
         for (Member dto : members) {
             if (dto.getName().equals(username)) {
                 if (dto.getPassword() == password) {
-                    return new MemberDto("S-1", username + "님 환영합니다.");
+                    MemberDto memberDto = new MemberDto("S-1", username + "님 환영합니다.");
+                    memberDto.setMember(dto);
+                    return memberDto;
 
                 } else return new MemberDto("F-1", "비밀번호가 일치하지 않습니다.");
             }
@@ -32,12 +34,12 @@ public class MemberService {
     }
 
     //-- save --//
-    public int save(Member member) {
+    public long save(Member member) {
         return repository.save(member);
     }
 
     //-- id 찾기 --//
-    public Member findOne(int id) {
+    public Member findOne(long id) {
         return repository.findMember(id);
     }
 
