@@ -7,6 +7,7 @@ import com.ll.basic1.entity.UpdateDto;
 import com.ll.basic1.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,7 +55,6 @@ public class MemberController {
     @ResponseBody
     public MemberDto showMe() {
         long loginedMemberId = rq.getSessionAsLong("loginedMemberId", 0);
-
         boolean isLogined = loginedMemberId > 0;
 
         if (!isLogined)
@@ -85,19 +85,19 @@ public class MemberController {
     // http://localhost:8080/member/login
     @GetMapping("/member/login")
     public String showLogin() {
-        return "usr/member/login";
+        return "usr/member/login_form";
     }
 
     //-- 파라미터로 로그인 하기 --//
     // http://localhost:8080/member/login?username=홍길동&password=1234
     @PostMapping("/member/login")
-    @ResponseBody
-    public MemberDto doLogin(String username, int password) {
+    public String doLogin(String username, int password, Model model) {
         MemberDto dto = service.login(username, password);
         Member member = dto.getMember();
-
         rq.setSession("loginedMemberId", member.getId());
-        return dto;
+
+        model.addAttribute("member", member);
+        return "usr/member/login";
     }
 
     //-- 모든 회원 조회 --//

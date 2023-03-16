@@ -1,6 +1,9 @@
-<h1>로그인</h1>
-<form method="POST" action="login">
-    <input type="text" placeholder="아이디" name="username"><br>
-    <input type="password" placeholder="비밀번호" name="password">
-    <input type="submit" value="로그인">
-</form>
+<div th:if="${member != null}">
+    <h1>로그인 완료</h1>
+
+    <h2>회원번호 : [[${member.id}]]</h2>
+    <h2>아이디 : [[${member.name}]]</h2>
+</div>
+<div th:if="${member == null}">
+    <h1>로그인 후 이용해주세요.</h1>
+</div>
