@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:127.0.0.1:3306/basic1__dev?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://127.0.0.1:3306/basic1__dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
     username: root
     password: gozldwmf
   thymeleaf:
@@ -17,4 +17,4 @@ spring:
         enabled: true
   jpa:
     hibernate:
-      ddl-auto: create # ??? ???? (??? ???? ??? ?)
+      ddl-auto: create
