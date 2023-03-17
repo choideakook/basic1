@@ -2,8 +2,11 @@ package com.ll.basic1.algorithm;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Stream;
 
 
 class AlgorithmTest {
@@ -12,26 +15,26 @@ class AlgorithmTest {
     void t1() {
         int[] people = {70, 50, 80, 50};
         int limit = 100;
-        int answer =0;
+        int answer = 0;
         //--------------------------------//
 
-        int[] a = new int[99999];
-        for (int i = 0; i < a.length; i++) {
-            double v = Math.random() * 99999;
-            a[i] = (int) v;
+        int max = 0;
+        Arrays.sort(people);
+
+        for (int i = 0; i < people.length; i++) {
+
+            max += people[i];
+
+            if (limit > max) continue;
+            else if (limit == max)  max = 0;
+            else max = people[i];
+
+            answer++;
         }
+        answer += max == 0 ? 0 : 1;
 
-        long start = System.nanoTime();
-
-//        Collections.sort(Arrays.asList(a));
-
-
-        long end = System.nanoTime();
-        System.out.println((end-start) / 1000000.0);
-
-
-//        for (int i : answer)
-//            System.out.println(answer);
+//        for (int[] i : ints)
+            System.out.println(answer);
     }
 
     @Test
