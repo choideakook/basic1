@@ -35,7 +35,7 @@ public class Rq {
         session.setAttribute(name, value);
     }
 
-    //-- 세션 조회 --//
+    //-- 세션 조회 V.long --//
     public long getSessionAsLong(String name, long defaultValue) {
         try {
             long value = (long) req.getSession().getAttribute(name);
@@ -45,7 +45,7 @@ public class Rq {
         }
     }
 
-    //--  --//
+    //-- 세션 조회 V.String --//
     private String getSessionAsStr(String name, String defaultValue) {
         try {
             String value = (String) req.getSession().getAttribute(name);
@@ -72,7 +72,6 @@ public class Rq {
      */
     //-- 쿠키 생성 --//
     public void createCookie(String username) {
-
         resp.addCookie(new Cookie("yes", username));
     }
 

@@ -34,7 +34,7 @@ public class MemberController {
     }
 
 
-    //-- 쿠키 삭제 (로그아웃) 하기 --//
+    //-- 로그 아웃 하기 --//
     // http://localhost:8080/member/logout
     @GetMapping("/member/logout")
     @ResponseBody
